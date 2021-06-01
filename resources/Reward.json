@@ -1,0 +1,42 @@
+{
+    "can_duplicate": true,
+    "Reward_economy": [
+        1000,
+        10000
+    ],
+    "Reward_items": [
+        [
+            {
+                "id": 1,
+                "damage": 0,
+                "count": 64
+            },
+            {
+                "id": 2,
+                "damage": 0,
+                "count": 64
+            }
+        ],
+        [
+            {
+                "id": 1,
+                "damage": 0,
+                "count": 64
+            },
+            {
+                "id": 2,
+                "damage": 0,
+                "count": 64
+            }
+        ]
+    ],
+    "Reward_table": {
+        "日": 0,
+        "月": -1,
+        "火": 1,
+        "水": 1,
+        "木": 1,
+        "金": 1,
+        "土": -1
+    }
+}

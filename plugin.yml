@@ -1,0 +1,28 @@
+name: nexus-core
+version: 1.0.0
+author: lovetwice1012
+api: 3.0.0
+main: nexuscore\nexuscore
+description: Nexusのコアプラグインです。
+commands:
+    rand:
+        description: 乱数を発生させます。
+        usage: /rand min max <true | false>
+    lay:
+        description: 光を発生させます。
+        usage: /lay
+    verify:
+        description: TwitterアカウントとXBOXゲーマータグをリンクさせる際に使用する所有権確認コマンドです。(SNSパートナー制度用)
+        usage: /verify code
+    verify-ad:
+        description: TwitterアカウントとXBOXゲーマータグをリンクさせる際に使用する所有権確認コマンドです。(Twitter宣伝制度用)
+        usage: /verify-ad code
+    mywarp:
+        description: 個人用のワープ地点を登録できます。
+        usage: /mywarp
+    myw:
+        description: 個人用のワープ地点を登録できます。
+        usage: /myw
+    tpp:
+        description: プレイヤーに転送リクエストを送信できます。
+        usage: /tpp playername
