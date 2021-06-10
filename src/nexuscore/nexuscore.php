@@ -8,6 +8,7 @@ use nexuscore\arrow\NewArrow;
 use nexuscore\task\entitykilltask;
 use nexuscore\task\broadcasttask;
 use nexuscore\task\checktweettask;
+use nexuscore\task\maxentitystask;
 use nexuscore\task\effect\nightvisiontask;
 use nexuscore\task\effect\speedtask;
 use nexuscore\task\effect\speedv2task;
@@ -144,6 +145,7 @@ class nexuscore extends PluginBase implements Listener
         $this->getScheduler()->scheduleRepeatingTask(new speedtask($this), 5);
         $this->getScheduler()->scheduleRepeatingTask(new speedv2task($this), 5);
         $this->getScheduler()->scheduleRepeatingTask(new highjumptask($this), 5);
+	$this->getScheduler()->scheduleRepeatingTask(new maxentitystask($this), 2);
         $this->getScheduler()->scheduleRepeatingTask(new shieldrechargetask($this), 5);
         $this->getScheduler()->scheduleRepeatingTask(new broadcasttask($this), 20 * 60 * 5);
         $this->getScheduler()->scheduleRepeatingTask(new checktweettask($this, $this->rewardconfig, $this->dayconfig), 36000);//30分*20(1800*20)
