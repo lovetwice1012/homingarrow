@@ -1,4 +1,3 @@
-
 <?php
 namespace nexuscore\arrow;
 use pocketmine\entity\projectile\Arrow;
