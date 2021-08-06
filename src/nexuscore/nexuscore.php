@@ -5,6 +5,7 @@ namespace nexuscore;
 use nexuscore\arrow\AntiGravityArrow;
 use nexuscore\arrow\DoubleGravityArrow;
 use nexuscore\arrow\NewArrow;
+use nexuscore\arrow\HomingArrow;
 use nexuscore\task\entitykilltask;
 use nexuscore\task\broadcasttask;
 use nexuscore\task\checktweettask;
@@ -185,6 +186,9 @@ class nexuscore extends PluginBase implements Listener
             $event->setProjectile($arrow);
         } else if ($event->getBow()->getCustomName() === 'DOUBLEGRAVITY-BOW') {
             $arrow = Entity::createEntity("DoubleGravityArrow", $entity->getLevelNonNull(), $nbt, $entity, $baseForce >= 1);
+            $event->setProjectile($arrow);
+        } else if ($event->getBow()->getCustomName() === 'HOMING-BOW') {
+            $arrow = Entity::createEntity("HomingArrow", $entity->getLevelNonNull(), $nbt, $entity, $baseForce >= 1);
             $event->setProjectile($arrow);
         }
     
