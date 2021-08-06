@@ -141,6 +141,7 @@ class nexuscore extends PluginBase implements Listener
         Entity::registerEntity(NewArrow::class, false, ['NewArrow', 'minecraft:newarrow']);
         Entity::registerEntity(AntiGravityArrow::class, false, ['AntiGravityArrow', 'minecraft:antigravityarrow']);
         Entity::registerEntity(DoubleGravityArrow::class, false, ['DoubleGravityArrow', 'minecraft:doublegravityarrow']);
+        Entity::registerEntity(HomingArrow::class, false, ['HomingArrow', 'minecraft:homingarrow']);
         $this->getScheduler()->scheduleRepeatingTask(new entitykilltask($this), 20);
         $this->getScheduler()->scheduleRepeatingTask(new nightvisiontask($this), 5);
         $this->getScheduler()->scheduleRepeatingTask(new speedtask($this), 5);
