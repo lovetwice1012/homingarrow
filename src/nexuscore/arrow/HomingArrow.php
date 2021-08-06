@@ -29,7 +29,7 @@ final class HomingArrow extends Arrow{
 	}
 
 	public function entityBaseTick(int $tick = 1):bool{
- 	  $newTarget = $this->getWorld()->getNearestEntity($this->location, 8.0, Living::class);
+ 	  $newTarget = $this->level->getNearestEntity($this->location, 8.0, Living::class);
 
 		if($newTarget instanceof Living){
 			$currentTarget = $newTarget;
