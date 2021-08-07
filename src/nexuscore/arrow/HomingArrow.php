@@ -13,8 +13,8 @@ use pocketmine\math\RayTraceResult;
 
 final class HomingArrow extends Arrow{
         protected $gravity = 0;
-	protected $damage = 2.5;
-	protected $punchKnockback = 5.0;
+	protected $damage = 3.0;
+	protected $punchKnockback = 2.0;
 	private $shooter;
 
 	public function __construct(Level $level, CompoundTag $nbt, ?Entity $entity = null, bool $critical = false){
@@ -25,13 +25,13 @@ final class HomingArrow extends Arrow{
 			$critical
 		);
 		if($entity === null) return;
-		$this->setMotion($entity->getDirectionVector()->normalize()->multiply(0.50)); //速度 この値を基本速度に掛け算してます
+		$this->setMotion($entity->getDirectionVector()->normalize()->multiply(0.30)); //速度 この値を基本速度に掛け算してます
 		$this->shooter = $entity;
 	}
 
 	public function entityBaseTick(int $tick = 1):bool{
- 	  $newTarget = $this->level->getNearestEntity($this->getLocation(), 100.0, Human::class);
-          if($newTarget instanceof Human){
+ 	  $newTarget = $this->level->getNearestEntity($this->getLocation(), 100.0, Living::class);
+          if($newTarget instanceof Living){
             if($this->shooter === null){
 	      $currentTarget = null;
 	    }else{
