@@ -24,12 +24,12 @@ final class HomingArrow extends Arrow{
 			$critical
 		);
 		if($entity === null) return;
-		$this->setMotion($entity->getDirectionVector()->normalize()->multiply(10)); //速度 この値を基本速度に掛け算してます
+		$this->setMotion($entity->getDirectionVector()->normalize()->multiply(3)); //速度 この値を基本速度に掛け算してます
 		$this->shooter = $entity;
 	}
 
 	public function entityBaseTick(int $tick = 1):bool{
- 	  $newTarget = $this->level->getNearestEntity($this->getLocation(), 8.0, Living::class);
+ 	  $newTarget = $this->level->getNearestEntity($this->getLocation(), 200.0, Living::class);
           if($newTarget instanceof Living && $this->shooter->getId() !== $newTarget->getId()){
 	    $currentTarget = $newTarget;
 	  }else{
@@ -37,7 +37,7 @@ final class HomingArrow extends Arrow{
           }
 
 	  if($currentTarget !== null){
-		$vector = $currentTarget->getPosition()->add(0, $currentTarget->getEyeHeight() / 2, 0)->subtractVector($this->location)->divide(8.0);
+		$vector = $currentTarget->getPosition()->add(0, $currentTarget->getEyeHeight() / 2, 0)->subtractVector($this->location)->divide(200.0);
 
 		$distance = $vector->lengthSquared();
 	  }
