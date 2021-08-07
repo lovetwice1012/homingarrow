@@ -29,19 +29,18 @@ final class HomingArrow extends Arrow{
 	}
 
 	public function entityBaseTick(int $tick = 1):bool{
- 	  $newTarget = $this->level->getNearestEntity($this->location, 8.0, Living::class);
+ 	  $newTarget = $this->level->getNearestEntity($this->getLocation(), 8.0, Living::class);
+          if($newTarget instanceof Living && $this->shooter->getId() !== $newTarget->getId()){
+	    $currentTarget = $newTarget;
+	  }else{
+            $currentTarget = null;
+          }
 
-		if($newTarget instanceof Living){
-			$currentTarget = $newTarget;
-		}else{
-      $currentTarget = null;
-    }
+	  if($currentTarget !== null){
+		$vector = $currentTarget->getPosition()->add(0, $currentTarget->getEyeHeight() / 2, 0)->subtractVector($this->location)->divide(8.0);
 
-		if($currentTarget !== null){
-			$vector = $currentTarget->getPosition()->add(0, $currentTarget->getEyeHeight() / 2, 0)->subtractVector($this->location)->divide(8.0);
-
-			$distance = $vector->lengthSquared();
-		}
+		$distance = $vector->lengthSquared();
+	  }
 		foreach($this->level->getEntities() as $entity){
 			if(
 				!$entity instanceof Living
