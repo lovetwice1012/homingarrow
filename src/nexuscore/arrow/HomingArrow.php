@@ -12,9 +12,9 @@ use pocketmine\event\entity\ProjectileHitEntityEvent;
 use pocketmine\math\RayTraceResult;
 
 final class HomingArrow extends Arrow{
-  protected $gravity = 0;
+        protected $gravity = 0;
 	protected $damage = 2.5;
-	protected $punchKnockback = 10.0;
+	protected $punchKnockback = 5.0;
 	private $shooter;
 
 	public function __construct(Level $level, CompoundTag $nbt, ?Entity $entity = null, bool $critical = false){
@@ -25,12 +25,12 @@ final class HomingArrow extends Arrow{
 			$critical
 		);
 		if($entity === null) return;
-		$this->setMotion($entity->getDirectionVector()->normalize()->multiply(3)); //速度 この値を基本速度に掛け算してます
+		$this->setMotion($entity->getDirectionVector()->normalize()->multiply(0.60)); //速度 この値を基本速度に掛け算してます
 		$this->shooter = $entity;
 	}
 
 	public function entityBaseTick(int $tick = 1):bool{
- 	  $newTarget = $this->level->getNearestEntity($this->getLocation(), 200.0, Human::class);
+ 	  $newTarget = $this->level->getNearestEntity($this->getLocation(), 100.0, Human::class);
           if($newTarget instanceof Human){
             if($this->shooter === null){
 	      $currentTarget = null;
@@ -38,7 +38,7 @@ final class HomingArrow extends Arrow{
               if($this->shooter->getId() !== $newTarget->getId()){
 	        $currentTarget = $newTarget;
 	      }else{
-	       $currentTarget = null;
+	        $currentTarget = null;
 	      }
 	    }
 	  }else{
@@ -46,7 +46,7 @@ final class HomingArrow extends Arrow{
           }
 
 	  if($currentTarget !== null){
-		$vector = $currentTarget->getPosition()->add(0, $currentTarget->getEyeHeight() / 2, 0)->subtractVector($this->getLocation())->divide(200.0);
+		$vector = $currentTarget->getPosition()->add(0, $currentTarget->getEyeHeight() / 2, 0)->subtractVector($this->getLocation())->divide(100.0);
 
 		$distance = $vector->lengthSquared();
 	  }
