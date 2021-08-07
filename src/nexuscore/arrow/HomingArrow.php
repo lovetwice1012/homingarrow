@@ -5,6 +5,7 @@ use pocketmine\entity\{
 	Entity,
 	Living
 };
+use pocketmine\entity\Human;
 use pocketmine\level\Level;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\event\entity\ProjectileHitEntityEvent;
@@ -29,8 +30,8 @@ final class HomingArrow extends Arrow{
 	}
 
 	public function entityBaseTick(int $tick = 1):bool{
- 	  $newTarget = $this->level->getNearestEntity($this->getLocation(), 200.0, Living::class);
-          if($newTarget instanceof Living){
+ 	  $newTarget = $this->level->getNearestEntity($this->getLocation(), 200.0, Human::class);
+          if($newTarget instanceof Human){
             if($this->shooter === null){
 	      $currentTarget = null;
 	    }else{
