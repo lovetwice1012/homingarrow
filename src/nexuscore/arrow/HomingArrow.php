@@ -25,12 +25,12 @@ final class HomingArrow extends Arrow{
 			$critical
 		);
 		if($entity === null) return;
-		$this->setMotion($entity->getDirectionVector()->normalize()->multiply(0.30)); //速度 この値を基本速度に掛け算してます
+		$this->setMotion($entity->getDirectionVector()->normalize()->multiply(0.10));
 		$this->shooter = $entity;
 	}
 
 	public function entityBaseTick(int $tick = 1):bool{
- 	  $newTarget = $this->level->getNearestEntity($this->getLocation(), 100.0, Living::class);
+ 	  $newTarget = $this->level->getNearestEntity($this->getLocation(), 150.0, Living::class);
           if($newTarget instanceof Living){
             if($this->shooter === null){
 	      $currentTarget = null;
@@ -46,7 +46,7 @@ final class HomingArrow extends Arrow{
           }
 
 	  if($currentTarget !== null){
-		$vector = $currentTarget->getPosition()->add(0, $currentTarget->getEyeHeight() / 2, 0)->subtract($this->getLocation())->divide(100.0);
+		$vector = $currentTarget->getPosition()->add(0, $currentTarget->getEyeHeight() / 2, 0)->subtract($this->getLocation())->divide(150.0);
 
 		$distance = $vector->lengthSquared();
 	  }
@@ -56,18 +56,18 @@ final class HomingArrow extends Arrow{
 					or
 				$this->shooter === null
 					or
-				$this->shooter->getId() === $entity->getId() //当たり判定を大きくしすぎると打った人に当たるのでそれの防止
+				$this->shooter->getId() === $entity->getId()
 					or
-				$this->distance($entity) > 5 //当たり判定
+				$this->distance($entity) > 3
 					or
-				($bb = $entity->getBoundingBox()) === null //エンティティが当たり判定を持っているか
+				($bb = $entity->getBoundingBox()) === null
 			) continue;
 
 			$this->onHitEntity(
 				$entity,
 				new RayTraceResult(
 					$bb,
-					$this->getDirection(), //ここ間違ってるかも... ごめん...
+					$this->getDirection(),
 					$entity
 				)
 			);
