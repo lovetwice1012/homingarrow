@@ -25,7 +25,7 @@ final class HomingArrow extends Arrow{
 			$critical
 		);
 		if($entity === null) return;
-		$this->setMotion($entity->getDirectionVector()->normalize()->multiply(0.10));
+		//$this->setMotion($entity->getDirectionVector()->normalize()->multiply(1));
 		$this->shooter = $entity;
 	}
 
@@ -50,7 +50,7 @@ final class HomingArrow extends Arrow{
 
 		$distance = $vector->lengthSquared();
 		if($distance < 1){
-		  $diff = $vector->normalize()->multiply(0.2 * (1 - sqrt($distance)) ** 2);
+		  $diff = $vector->normalize()->multiply(0.05 * (1 - sqrt($distance)) ** 2);
 		  $this->motion->x += $diff->x;
 		  $this->motion->y += $diff->y;
 		  $this->motion->z += $diff->z;
