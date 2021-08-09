@@ -25,7 +25,7 @@ final class HomingArrow extends Arrow{
 			$critical
 		);
 		if($entity === null) return;
-		$this->setMotion($entity->getDirectionVector()->normalize()->multiply(0.5));
+		//$this->setMotion($entity->getDirectionVector()->normalize()->multiply(0.5));
 		$this->shooter = $entity;
 	}
 
