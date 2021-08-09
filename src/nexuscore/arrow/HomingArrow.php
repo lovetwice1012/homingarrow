@@ -50,13 +50,10 @@ final class HomingArrow extends Arrow{
 
 		$distance = $vector->lengthSquared();
 		if($distance < 1){
-		  /*$diff = $vector->normalize()->multiply(0.5 * (1 - sqrt($distance)) ** 2);
+		  $diff = $vector->normalize()->multiply(0.2 * (1 - sqrt($distance)) ** 2);
 		  $this->motion->x += $diff->x;
 		  $this->motion->y += $diff->y;
-		  $this->motion->z += $diff->z;*/
-		  $this->motion->x += $vector->x;
-		  $this->motion->y += $vector->y;
-		  $this->motion->z += $vector->z;
+		  $this->motion->z += $diff->z;
 		}
 	  }
 		foreach($this->level->getEntities() as $entity){
