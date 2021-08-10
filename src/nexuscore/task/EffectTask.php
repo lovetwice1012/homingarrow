@@ -31,6 +31,9 @@
                 if($armorinventory->getBoots()->getCustomName()==="太古の鎧(靴)SPEED"){
                     $player->addEffect(new EffectInstance(Effect::getEffect(1), 400, 1, false));
                 }
+                if($armorinventory->getBoots()->getCustomName()==="太古の鎧(靴)SPEED-V2"){
+                    $player->addEffect(new EffectInstance(Effect::getEffect(1), 400, 3, false));
+                }
             }
             
         }
