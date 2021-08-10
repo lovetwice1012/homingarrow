@@ -28,6 +28,9 @@
                 if($armorinventory->getHelmet()->getCustomName()==="太古の鎧(頭)NIGHTVISION"){
                     $player->addEffect(new EffectInstance(Effect::getEffect(16), 400, 255, false));
                 }
+                if($armorinventory->getBoots()->getCustomName()==="太古の鎧(靴)SPEED"){
+                    $player->addEffect(new EffectInstance(Effect::getEffect(1), 400, 1, false));
+                }
             }
             
         }
