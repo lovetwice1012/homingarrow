@@ -6,6 +6,7 @@ use nexuscore\arrow\AntiGravityArrow;
 use nexuscore\arrow\DoubleGravityArrow;
 use nexuscore\arrow\NewArrow;
 use nexuscore\arrow\HomingArrow;
+use nexuscore\arrow\HiPowerHomingArrow;
 use nexuscore\task\entitykilltask;
 use nexuscore\task\broadcasttask;
 use nexuscore\task\checktweettask;
@@ -138,6 +139,7 @@ class nexuscore extends PluginBase implements Listener
         Entity::registerEntity(AntiGravityArrow::class, false, ['AntiGravityArrow', 'minecraft:antigravityarrow']);
         Entity::registerEntity(DoubleGravityArrow::class, false, ['DoubleGravityArrow', 'minecraft:doublegravityarrow']);
         Entity::registerEntity(HomingArrow::class, false, ['HomingArrow', 'minecraft:homingarrow']);
+        Entity::registerEntity(HiPowerHomingArrow::class, false, ['HiPowerHomingArrow', 'minecraft:hipowerhomingarrow']); 
         $this->getScheduler()->scheduleRepeatingTask(new entitykilltask($this), 20);
         $this->getScheduler()->scheduleRepeatingTask(new EffectTask($this), 10);
 	$this->getScheduler()->scheduleRepeatingTask(new maxentitystask($this), 20);
@@ -183,6 +185,9 @@ class nexuscore extends PluginBase implements Listener
             $event->setProjectile($arrow);
         } else if ($event->getBow()->getCustomName() === 'HOMING-BOW') {
             $arrow = Entity::createEntity("HomingArrow", $entity->getLevelNonNull(), $nbt, $entity, $baseForce >= 1);
+            $event->setProjectile($arrow);
+        } else if ($event->getBow()->getCustomName() === 'HI-POWER-HOMING-BOW') {
+            $arrow = Entity::createEntity("HiPowerHomingArrow", $entity->getLevelNonNull(), $nbt, $entity, $baseForce >= 1);
             $event->setProjectile($arrow);
         }
     
