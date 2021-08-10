@@ -723,6 +723,5 @@ public function onDamage(EntityDamageByEntityEvent $event)
     $this->preloginconfig->set($name,true);
     $this->preloginconfig->save();
     Server::getInstance()->broadcastMessage("§a".$name."さんがサーバーに接続中です");
-    $this->loadallworldspawnchunk();
     }
 }
