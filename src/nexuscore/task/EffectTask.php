@@ -1,6 +1,6 @@
 <?php
 
-    namespace nexuscore\task\effect;
+    namespace nexuscore\task;
 
 
     use pocketmine\plugin\Plugin;
@@ -8,7 +8,7 @@
     use pocketmine\entity\Effect;
     use pocketmine\entity\EffectInstance;
 
-    class highjumptask extends Task
+    class EffectTask extends Task
     {
         private $plugin;
 
