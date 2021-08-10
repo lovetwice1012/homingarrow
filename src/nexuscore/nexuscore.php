@@ -77,7 +77,6 @@ class nexuscore extends PluginBase implements Listener
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->wipeconfig = new Config($this->getDataFolder() . "wipe.yml", Config::YAML);
         $this->preloginconfig = new Config($this->getDataFolder() . "prelogin.yml", Config::YAML);
-        $this->loadallworldspawnchunk();
         /*$this->rewardconfig = new Config($this->getDataFolder() . "Reward.json", Config::JSON, [
             "can_duplicate" => true,
             "Reward_economy" => [
@@ -156,10 +155,10 @@ class nexuscore extends PluginBase implements Listener
     public function onArmorChange(EntityArmorChangeEvent $event){
         $player = $event->getEntity();
         if(!$player instanceof Player) return;
-/*
+	/*
         self::$shieldconfig->set($player->getName(),"リチャージ");
         self::$shieldconfig->save();
-*/
+	*/
     }
 
     function onEntityShootBow(EntityShootBowEvent $event): void
@@ -354,8 +353,9 @@ if($projectile->namedtag->offsetExists("TeleportBow")){
                     $sender->sendMessage("転送リクエストを送りたい相手の名前を指定してください。");
                     return true;
                     }
-                    $teleportplayername = $args[0];
                     $teleportplayer = Server::getInstance()->getPlayer($teleportplayername);
+                    $teleportplayername = $teleportplayer->getName();
+
                     if($teleportplayer instanceof Player){
                         if($this->tppconfig->exists($name)){
                             $sender->sendMessage("転送リクエストを送信する前にあなたに届いているリクエストを処理してください。");
@@ -685,23 +685,6 @@ public function onDamage(EntityDamageByEntityEvent $event)
             $p->transfer("server.playnexus.online", 7777);
         }
     }
-    
-    public function loadallworldspawnchunk(){
-	    return;
-    $this->getServer()->loadLevel("survival");
-    $this->getServer()->loadLevel("pvp1");
-    foreach ($this->getServer()->getLevels() as $level) {
-    $x = $level->getSpawnLocation()->x >> 4; // take 'X' chunk coordinate
-    $z = $level->getSpawnLocation()->z >> 4; // take 'Z' chunk coordinate
-    $radius = 15;
-    for ($chunkX = -$radius; $chunkX <= $radius; $chunkX++){
-        for ($chunkZ = -$radius; $chunkZ <= $radius; $chunkZ++){
-                // if distance <= raduis than load chunk
-                if (sqrt($chunkX*$chunkX + $chunkZ*$chunkZ) <= $radius) $level->loadChunk($chunkX + $x, $chunkZ + $z);
-        }
-    }
-    }
-    }
 
     public function onMove(PlayerMoveEvent $event) {
         $player = $event->getPlayer();
@@ -719,7 +702,7 @@ public function onDamage(EntityDamageByEntityEvent $event)
   public function onPacketReceive(DataPacketReceiveEvent $event):void{
     $packet = $event->getPacket();
     if($packet instanceof LoginPacket){
-    var_dump($packet->clientData['PlayFabId']);
+   // var_dump($packet->clientData['PlayFabId']);
     }
   }
   public function onPacketSends(DataPacketSendEvent $event):void{
