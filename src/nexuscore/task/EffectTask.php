@@ -23,8 +23,10 @@
                 $armorinventory = $player->getArmorInventory();
                 if($armorinventory===null)       continue;
                 if($armorinventory->getLeggings()->getCustomName()==="太古の鎧(脚)HIGHJUMP"){
-
                     $player->addEffect(new EffectInstance(Effect::getEffect(8), 400, 2, false));
+                }
+                if($armorinventory->getHelmet()->getCustomName()==="太古の鎧(頭)NIGHTVISION"){
+                    $player->addEffect(new EffectInstance(Effect::getEffect(16), 400, 255, false));
                 }
             }
             
