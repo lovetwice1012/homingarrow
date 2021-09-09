@@ -2,60 +2,100 @@
 
 namespace nexuscore;
 
+/* PluginBase */
+use pocketmine\plugin\PluginBase;
+
+/* Server */
+use pocketmine\Server;
+
+/* Player */
+use pocketmine\player\Player;
+
+/* Utils */
+use pocketmine\utils\Config;
+use pocketmine\utils\TextFormat as Color;
+
+/* TaskScheduler */
+use pocketmine\scheduler\ClosureTask;
+
+/* Command */
+use pocketmine\command\Command;
+use pocketmine\command\CommandSender;
+
+/* Entity */
+use pocketmine\entity\Entity;
+use pocketmine\entity\EntityIds;
+
+/* Entity(effect) */
+use pocketmine\entity\effect\Effect;
+use pocketmine\entity\effect\EffectInstance;
+
+/* Entity(projectile) */
+use pocketmine\entity\projectile\Arrow;
+
+/* Item */
+use pocketmine\item\Item;
+
+/* Level */
+use pocketmine\level\Level;
+use pocketmine\level\Position;
+
+/* Inventory */
+use pocketmine\inventory\ArmorInventory;
+
+/* Math */
+use pocketmine\math\Vector3;
+
+/* Event(entity) */
+use pocketmine\event\Listener;
+use pocketmine\event\entity\EntityShootBowEvent;
+use pocketmine\event\entity\EntityEffectAddEvent;
+use pocketmine\event\entity\ProjectileHitEvent;
+use pocketmine\event\entity\ProjectileHitEntityEvent;
+use pocketmine\event\entity\ProjectileHitBlockEvent;
+use pocketmine\event\entity\EntityArmorChangeEvent;
+use pocketmine\event\entity\EntityDamageByEntityEvent;
+use pocketmine\event\entity\EntityDamageEvent;
+
+/* Event(player) */
+use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\event\player\PlayerLoginEvent;
+use pocketmine\event\player\PlayerMoveEvent;
+use pocketmine\event\player\PlayerPreLoginEvent;
+use pocketmine\event\player\PlayerChatEvent;
+
+/* Event(server) */
+use pocketmine\event\server\DataPacketReceiveEvent;
+use pocketmine\event\server\DataPacketSendEvent;
+
+/* Network */
+use pocketmine\network\mcpe\protocol\DisconnectPacket;
+use pocketmine\network\mcpe\protocol\LoginPacket;
+use pocketmine\network\mcpe\protocol\ActorEventPacket;
+use pocketmine\network\mcpe\protocol\AddActorPacket;
+use pocketmine\network\mcpe\protocol\BatchPacket;
+use pocketmine\network\mcpe\protocol\RemoveActorPacket;
+
+/* nexuscore special arrows */
 use nexuscore\arrow\AntiGravityArrow;
 use nexuscore\arrow\DoubleGravityArrow;
 use nexuscore\arrow\NewArrow;
 use nexuscore\arrow\HomingArrow;
 use nexuscore\arrow\HiPowerHomingArrow;
+
+/* nexucore tasks */
 use nexuscore\task\entitykilltask;
 use nexuscore\task\broadcasttask;
 use nexuscore\task\checktweettask;
 use nexuscore\task\maxentitystask;
 use nexuscore\task\EffectTask;
 use nexuscore\task\effect\shieldrechargetask;
-use pocketmine\entity\projectile\Arrow;
-use pocketmine\command\Command;
-use pocketmine\command\CommandSender;
-use pocketmine\entity\Entity;
-use pocketmine\entity\EntityIds;
-use pocketmine\event\entity\EntityShootBowEvent;
-use pocketmine\event\Listener;
-use pocketmine\event\player\PlayerJoinEvent;
-use pocketmine\event\player\PlayerLoginEvent;
-use pocketmine\item\Item;
-use pocketmine\network\mcpe\protocol\ActorEventPacket;
-use pocketmine\network\mcpe\protocol\AddActorPacket;
-use pocketmine\network\mcpe\protocol\BatchPacket;
-use pocketmine\network\mcpe\protocol\RemoveActorPacket;
-use pocketmine\Player;
-use pocketmine\Server;
-use pocketmine\level\Level;
-use pocketmine\plugin\PluginBase;
-use pocketmine\scheduler\ClosureTask;
-use pocketmine\utils\Config;
-use pocketmine\event\entity\EntityDamageByEntityEvent;
-use pocketmine\inventory\ArmorInventory;
-use pocketmine\entity\Effect;
-use pocketmine\entity\EffectInstance;
-use pocketmine\event\entity\EntityEffectAddEvent;
-use pocketmine\event\entity\ProjectileHitEvent;
-use pocketmine\event\entity\ProjectileHitEntityEvent;
-use pocketmine\event\entity\ProjectileHitBlockEvent;
-use pocketmine\event\entity\EntityArmorChangeEvent;
-use pocketmine\math\Vector3;
-use pocketmine\level\Position;
-use pocketmine\event\player\PlayerChatEvent;
-use pocketmine\utils\TextFormat as Color;
-use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\event\player\PlayerMoveEvent;
-use FormAPI\window\SimpleWindowForm;
-use FormAPI\response\PlayerWindowResponse;
-use FormAPI\window\CustomWindowForm;
-use pocketmine\event\server\DataPacketReceiveEvent;
-use pocketmine\event\server\DataPacketSendEvent;
-use pocketmine\network\mcpe\protocol\DisconnectPacket;
-use pocketmine\network\mcpe\protocol\LoginPacket;
-use pocketmine\event\player\PlayerPreLoginEvent;
+
+/* nexuscore FormAPI */
+/* https://github.com/Yahir-AR/FormAPI-PMMP.git */
+use nexuscore\FormAPI\window\SimpleWindowForm;
+use nexuscore\FormAPI\window\CustomWindowForm;
+use nexuscore\FormAPI\response\PlayerWindowResponse;
 
 class nexuscore extends PluginBase implements Listener
 {
