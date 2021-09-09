@@ -97,6 +97,11 @@ use nexuscore\FormAPI\window\SimpleWindowForm;
 use nexuscore\FormAPI\window\CustomWindowForm;
 use nexuscore\FormAPI\response\PlayerWindowResponse;
 
+/* nexuscore wwarp */
+/* https://github.com/lovetwice1012/worldwarp.git */
+use nexuscore\worldwarp\WMAPI;
+use nexuscore\worldwarp\CustomForm;
+
 class nexuscore extends PluginBase implements Listener
 {
     public static $defaultwipe;
@@ -109,6 +114,9 @@ class nexuscore extends PluginBase implements Listener
     public $dayconfig;
     public $tppconfig;
     public $preloginconfig;
+    public $data;
+    public $plugin;
+    public $Main;
 
     public function onEnable()
     {
@@ -182,7 +190,7 @@ class nexuscore extends PluginBase implements Listener
         Entity::registerEntity(HiPowerHomingArrow::class, false, ['HiPowerHomingArrow', 'minecraft:hipowerhomingarrow']); 
         $this->getScheduler()->scheduleRepeatingTask(new entitykilltask($this), 20);
         $this->getScheduler()->scheduleRepeatingTask(new EffectTask($this), 10);
-	$this->getScheduler()->scheduleRepeatingTask(new maxentitystask($this), 20);
+	    $this->getScheduler()->scheduleRepeatingTask(new maxentitystask($this), 20);
         $this->getScheduler()->scheduleRepeatingTask(new shieldrechargetask($this), 10);
         $this->getScheduler()->scheduleRepeatingTask(new broadcasttask($this), 20 * 60 * 5);
         $this->getScheduler()->scheduleRepeatingTask(new checktweettask($this, $this->rewardconfig, $this->dayconfig), 36000);//30分*20(1800*20)
@@ -432,9 +440,40 @@ if($projectile->namedtag->offsetExists("TeleportBow")){
                     return true;
                 }
                 break;
+                case "wwarp":
+                if(!$sender instanceof Player) {
+                    $sender->sendMessage("ワールド内から実行してください。");
+                    return true;
+                }
+                $customForm = new CustomForm("world warp");
+                $customForm->addLabel("[ワールド間転送]行きたいワールドを選択してください。");
+                $customForm->addDropdown("Level", WMAPI::getAllLevels());
+                $sender->getServer()->getPlayer($sender->getName())->sendForm($customForm); 
+                return true;
         }
         return true;
     }
+    public static function handleCustomFormResponse(Player $player, $data, CustomForm $form) {
+        if($data === null){
+            return;
+	    }
+	
+	    $levelsname = WMAPI::getAllLevels()[$data[1]];
+	    if(!Server::getInstance()->isLevelGenerated($levelsname)) {
+            $player->sendMessage("このワールドは存在しません！");
+            return;
+        }
+
+        if(!Server::getInstance()->isLevelLoaded($levelsname)) {
+            Server::getInstance()->loadLevel($levelsname);
+        }
+
+        $level = Server::getInstance()->getLevelByName($levelsname);
+
+        $player->teleport($level->getSafeSpawn());
+        $player->sendMessage($levelsname."に転送しました。");
+        return;
+        }
 
     public function onChat(PlayerChatEvent $event){
         $message = $event->getMessage();
