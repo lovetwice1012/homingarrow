@@ -102,6 +102,12 @@ use nexuscore\FormAPI\response\PlayerWindowResponse;
 use nexuscore\worldwarp\WMAPI;
 use nexuscore\worldwarp\CustomForm;
 
+/* nexuscore PlayerInfoScoreBoard(remix) */
+/* https://github.com/lovetwice1012/nexusPISB.git */
+/* https://github.com/yurisi0212/PlayerInfoScoreBoard.git */
+use nexuscore\PISB\Task\Sendtask;
+use nexuscore\PISB\Command\johoCommand;
+
 class nexuscore extends PluginBase implements Listener
 {
     public static $defaultwipe;
@@ -117,9 +123,11 @@ class nexuscore extends PluginBase implements Listener
     public $data;
     public $plugin;
     public $Main;
+    private static $main;
 
     public function onEnable()
     {
+        self::$main=$this;
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->wipeconfig = new Config($this->getDataFolder() . "wipe.yml", Config::YAML);
         $this->preloginconfig = new Config($this->getDataFolder() . "prelogin.yml", Config::YAML);
@@ -194,6 +202,8 @@ class nexuscore extends PluginBase implements Listener
         $this->getScheduler()->scheduleRepeatingTask(new shieldrechargetask($this), 10);
         $this->getScheduler()->scheduleRepeatingTask(new broadcasttask($this), 20 * 60 * 5);
         $this->getScheduler()->scheduleRepeatingTask(new checktweettask($this, $this->rewardconfig, $this->dayconfig), 36000);//30分*20(1800*20)
+        $this->getScheduler()->scheduleRepeatingTask(new Sendtask(), 5);
+        $this->getServer()->getCommandMap()->register($this->getName(), new johoCommand());
     }
 
     public function onArmorChange(EntityArmorChangeEvent $event){
@@ -801,5 +811,14 @@ public function onDamage(EntityDamageByEntityEvent $event)
     $this->preloginconfig->set($name,true);
     $this->preloginconfig->save();
     Server::getInstance()->broadcastMessage("§a".$name."さんがサーバーに接続中です");
+    }
+    public static function getInstance():self {
+        return self::$main;
+    }
+ 
+    public function isOn(Player $player) {
+        $tag = $player->namedtag;
+        if ($tag->offsetExists($this->getName())) if (!$tag->getInt($this->getName()) == 0) return false;
+        return true;
     }
 }

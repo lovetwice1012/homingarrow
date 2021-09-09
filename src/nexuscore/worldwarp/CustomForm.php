@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace lovetwice1012\worldwarp;
+namespace nexuscore\worldwarp;
 
-use lovetwice1012\worldwarp\Main;
+use nexuscore\nexuscore;
 use pocketmine\form\Form;
 use pocketmine\Player;
 
@@ -44,7 +44,7 @@ class CustomForm implements Form {
     }
 
     public function handleResponse(Player $player, $data): void {
-       Main::handleCustomFormResponse($player, $data, $this);
+       nexuscore::handleCustomFormResponse($player, $data, $this);
     }
 
     public function jsonSerialize(): array {
