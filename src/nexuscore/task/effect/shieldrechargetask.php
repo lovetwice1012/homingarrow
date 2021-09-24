@@ -7,6 +7,7 @@
     use pocketmine\scheduler\Task;
     use pocketmine\entity\Effect;
     use pocketmine\entity\EffectInstance;
+    use pocketmine\Server;
     use nexuscore\nexuscore;
 
     class shieldrechargetask extends Task
@@ -18,9 +19,9 @@
             $this->plugin = $plugin;
         }
 
-        public function onRun(int $currentTick)
+        public function onRun():void
         {
-            foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
+            foreach (Server::getInstance()->getOnlinePlayers() as $player) {
                 $armorinventory = $player->getArmorInventory();
                 if($armorinventory===null)       continue;
                 if(nexuscore::$shieldconfig->get($player->getName()) === "リチャージ"){

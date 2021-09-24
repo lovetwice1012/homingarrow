@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace nexuscore\PISB\Command;
 
-use pocketmine\Player;
+use pocketmine\player\Player;
 
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;

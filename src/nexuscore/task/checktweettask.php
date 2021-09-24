@@ -27,7 +27,7 @@ class checktweettask extends Task
         $this->config1 = $dayconfig;
     }
 
-    public function onRun(int $currentTick)
+    public function onRun():void
     {
 
         //$economy = $this->config->get("Reward_economy", false);
@@ -65,7 +65,7 @@ class checktweettask extends Task
                 $this->config = $config;
             }
 
-            public function onRun()
+            public function onRun():void
             {
                 var_dump("!!");
                 $url = 'https://script.google.com/macros/s/AKfycbxBhaMRTSKOoCoLnHEsArmc8i4901NUOFFM-qSpxZYVOO4EEC2Cu3yKhxlY1_IVrbWsRg/exec';
@@ -100,9 +100,8 @@ class checktweettask extends Task
                 $this->setResult($array);
             }
 
-            public function onCompletion(Server $server)
+            public function onCompletion():void
             {
-                var_dump("!!");
                 $economyapi = Server::getInstance()->getPluginManager()->getPlugin("EconomyAPI");
                 $economy = $this->config->get("Reward_economy", false);
                 $items = $this->config->get("Reward_items", false);

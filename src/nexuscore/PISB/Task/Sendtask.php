@@ -19,7 +19,7 @@ use nexuscore\nexuscore;
 
 class Sendtask extends Task{
 
-	public function onRun($tick){
+	public function onRun():void{
         $wipehour=0;
         $wipemin=0;
         $wipesec=0;
