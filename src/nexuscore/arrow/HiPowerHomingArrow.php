@@ -6,7 +6,7 @@ use pocketmine\entity\{
 	Living
 };
 use pocketmine\entity\Human;
-use pocketmine\level\Level;
+use pocketmine\world\World;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\event\entity\ProjectileHitEntityEvent;
 use pocketmine\math\RayTraceResult;
@@ -17,7 +17,7 @@ final class HiPowerHomingArrow extends Arrow{
 	protected $punchKnockback = 50.0;
 	private $shooter;
 
-	public function __construct(Level $level, CompoundTag $nbt, ?Entity $entity = null, bool $critical = false){
+	public function __construct(World $level, ?CompoundTag $nbt = null, ?Entity $entity = null, bool $critical = false){
 		parent::__construct(
 			$level,
 			$nbt,

@@ -1,7 +1,7 @@
 name: nexus-core
 version: 1.0.0
 author: lovetwice1012
-api: 3.0.0
+api: 4.0.0
 main: nexuscore\nexuscore
 description: Nexusのコアプラグインです。
 commands:
