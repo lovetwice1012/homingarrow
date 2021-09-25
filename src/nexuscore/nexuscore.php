@@ -192,7 +192,7 @@ class nexuscore extends PluginBase implements Listener
         $this->getScheduler()->scheduleRepeatingTask(new broadcasttask($this), 20 * 60 * 5);
         $this->getScheduler()->scheduleRepeatingTask(new checktweettask($this, $this->rewardconfig, $this->dayconfig), 36000);//30分*20(1800*20)
         $this->getScheduler()->scheduleRepeatingTask(new Sendtask(), 5);
-        $this->getServer()->getCommandMap()->register($this->getName(), new johoCommand());
+        //$this->getServer()->getCommandMap()->register($this->getName(), new johoCommand());
     }
 
     function onEntityShootBow(EntityShootBowEvent $event): void
