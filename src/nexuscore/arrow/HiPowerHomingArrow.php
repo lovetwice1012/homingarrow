@@ -17,6 +17,7 @@ final class HiPowerHomingArrow extends Arrow{
 	protected $damage = 5000.0;
 	protected $punchKnockback = 50.0;
 	private $shooter;
+    private $level;
 
 	public function __construct(Location $location, ?CompoundTag $nbt = null, ?Entity $entity = null, bool $critical = false, ?World $level = null){
 		parent::__construct(
@@ -28,10 +29,11 @@ final class HiPowerHomingArrow extends Arrow{
 		if($entity === null) return;
 		//$this->setMotion($entity->getDirectionVector()->normalize()->multiply(0.5));
 		$this->shooter = $entity;
+		$this->level = $level;
 	}
 
 	public function entityBaseTick(int $tick = 1):bool{
- 	  $newTarget = $this->level->getNearestEntity($this->getLocation()->getX(),$this->getLocation()->getY(),$this->getLocation()->getZ(), 500.0, Living::class);
+ 	  $newTarget = $this->level->getNearestEntity($this->getLocation(), 500.0, Living::class);
           if($newTarget instanceof Living){
             if($this->shooter === null){
 	      $currentTarget = null;
@@ -75,7 +77,7 @@ final class HiPowerHomingArrow extends Arrow{
 				new RayTraceResult(
 					$bb,
 					1,
-					$entity
+					$entity->getLocation()
 				)
 			);
         break;

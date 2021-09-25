@@ -17,6 +17,8 @@ final class AntiGravityArrow extends Arrow{
 	protected $damage = 4.0;
 	protected $punchKnockback = 10.0;
 	private $shooter;
+	private $level;
+
 
 	public function __construct(Location $location, ?CompoundTag $nbt = null, ?Entity $entity = null, bool $critical = false, ?World $level = null){
 		parent::__construct(
@@ -28,6 +30,7 @@ final class AntiGravityArrow extends Arrow{
 		if($entity === null) return;
 		$this->setMotion($entity->getDirectionVector()->normalize()->multiply(3)); //速度 この値を基本速度に掛け算してます
 		$this->shooter = $entity;
+		$this->level = $level;
 	}
 
 	public function entityBaseTick(int $tick = 1):bool{
@@ -49,7 +52,7 @@ final class AntiGravityArrow extends Arrow{
 				new RayTraceResult(
 					$bb,
 					1, //ここ間違ってるかも... ごめん...
-					$entity
+					$entity->getLocation()
 				)
 			);
         break;
