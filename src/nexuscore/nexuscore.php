@@ -203,8 +203,8 @@ class nexuscore extends PluginBase implements Listener
         $nbt = $this->createBaseNBT(
             $entity->getLocation()->add(0, $entity->getEyeHeight(), 0),
             $entity->getDirectionVector(),
-            ($entity->yaw > 180 ? 360 : 0) - $entity->yaw,
-            -$entity->pitch
+            ($entity->getLocation()->yaw > 180 ? 360 : 0) - $entity->getLocation()->yaw,
+            -$entity->getLocation()->pitch
         );
         
 
