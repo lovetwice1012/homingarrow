@@ -712,8 +712,8 @@ public function onDamage(EntityDamageByEntityEvent $event)
     }
  
     public function isOn(Player $player) {
-        $tag = $player->namedtag;
-        if ($tag->offsetExists($this->getName())) if (!$tag->getInt($this->getName()) == 0) return false;
+        //$tag = $player->getNameTag();
+        //if ($tag->offsetExists($this->getName())) if (!$tag->getInt($this->getName()) == 0) return false;
         return true;
     }
 }
