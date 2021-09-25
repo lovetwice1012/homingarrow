@@ -729,18 +729,18 @@ public function onDamage(EntityDamageByEntityEvent $event)
             new DoubleTag($pos->y),
             new DoubleTag($pos->z)
         ],
-        7));
+        6));
         $tag->setTag("Motion",new ListTag([
             new DoubleTag($motion !== null ? $motion->x : 0.0),
             new DoubleTag($motion !== null ? $motion->y : 0.0),
             new DoubleTag($motion !== null ? $motion->z : 0.0)
         ],
-        7));
+        6));
         $tag->setTag("Rotation",new ListTag([
             new FloatTag($yaw),
 			new FloatTag($pitch)
         ],
-        7));
+        5));
 		return $tag;
 	}
 }
