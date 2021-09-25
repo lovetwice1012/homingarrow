@@ -209,19 +209,19 @@ class nexuscore extends PluginBase implements Listener
             $diff = $entity->getItemUseDuration();
             $p = $diff / 20;
             $baseForce = min((($p ** 2) + $p * 2) ** 3, 1);
-            $arrow = new NewArrow($entity->getLocation() ,$nbt ,$entity);
+            $arrow = new NewArrow($entity->getLocation() ,$nbt ,$entity ,false ,$entity->getWorld());
             $event->setProjectile($arrow);
         } else if ($event->getBow()->getCustomName() === 'ANTIGRAVITY-BOW') {
-            $arrow = new AntiGravityArrow($entity->getLocation() ,$nbt ,$entity);
+            $arrow = new AntiGravityArrow($entity->getLocation() ,$nbt ,$entity ,false ,$entity->getWorld());
             $event->setProjectile($arrow);
         } else if ($event->getBow()->getCustomName() === 'DOUBLEGRAVITY-BOW') {
-            $arrow = new DoubleGravityArrow($entity->getLocation() ,$nbt ,$entity);
+            $arrow = new DoubleGravityArrow($entity->getLocation() ,$nbt ,$entity ,false ,$entity->getWorld());
             $event->setProjectile($arrow);
         } else if ($event->getBow()->getCustomName() === 'HOMING-BOW') {
-            $arrow = new HomingArrow($entity->getLocation() ,$nbt ,$entity);
+            $arrow = new HomingArrow($entity->getLocation() ,$nbt ,$entity ,false ,$entity->getWorld());
             $event->setProjectile($arrow);
         } else if ($event->getBow()->getCustomName() === 'HI-POWER-HOMING-BOW') {
-            $arrow = new HiPowerHomingArrow($entity->getLocation() ,$nbt ,$entity);
+            $arrow = new HiPowerHomingArrow($entity->getLocation() ,$nbt ,$entity ,false ,$entity->getWorld());
             $event->setProjectile($arrow);
         }
     

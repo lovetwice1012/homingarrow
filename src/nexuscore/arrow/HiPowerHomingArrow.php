@@ -18,9 +18,9 @@ final class HiPowerHomingArrow extends Arrow{
 	protected $punchKnockback = 50.0;
 	private $shooter;
 
-	public function __construct(Location $level, ?CompoundTag $nbt = null, ?Entity $entity = null, bool $critical = false){
+	public function __construct(Location $location, ?CompoundTag $nbt = null, ?Entity $entity = null, bool $critical = false, ?World $level = null){
 		parent::__construct(
-			$level,
+			$location,
 			$entity,
 			$critical,
 			$nbt
