@@ -3,7 +3,8 @@ namespace nexuscore\arrow;
 use pocketmine\entity\projectile\Arrow;
 use pocketmine\entity\{
 	Entity,
-	Living
+	Living,
+    Location
 };
 use pocketmine\entity\Human;
 use pocketmine\world\World;
@@ -17,12 +18,12 @@ final class HomingArrow extends Arrow{
 	protected $punchKnockback = 2.0;
 	private $shooter;
 
-	public function __construct(World $level, ?CompoundTag $nbt = null, ?Entity $entity = null, bool $critical = false){
+	public function __construct(Location $level, ?CompoundTag $nbt = null, ?Entity $entity = null, bool $critical = false){
 		parent::__construct(
 			$level,
-			$nbt,
 			$entity,
-			$critical
+			$critical,
+			$nbt
 		);
 		if($entity === null) return;
 		//$this->setMotion($entity->getDirectionVector()->normalize()->multiply(0.5));
@@ -30,7 +31,7 @@ final class HomingArrow extends Arrow{
 	}
 
 	public function entityBaseTick(int $tick = 1):bool{
- 	  $newTarget = $this->level->getNearestEntity($this->asLocation(), 50.0, Living::class);
+ 	  $newTarget = $this->level->getNearestEntity($this->getLocation()->getX(),$this->getLocation()->getY(),$this->getLocation()->getZ(), 50.0, Living::class);
           if($newTarget instanceof Living){
             if($this->shooter === null){
 	      $currentTarget = null;
@@ -46,7 +47,7 @@ final class HomingArrow extends Arrow{
           }
 
 	  if($currentTarget !== null){
-		$vector = $currentTarget->getPosition()->add(0, $currentTarget->getEyeHeight() / 2, 0)->subtract($this->asLocation())->divide(50.0);
+		$vector = $currentTarget->getPosition()->add(0, $currentTarget->getEyeHeight() / 2, 0)->subtract($this->getLocation()->getX(),$this->getLocation()->getY(),$this->getLocation()->getZ())->divide(50.0);
 
 		$distance = $vector->lengthSquared();
 		if($distance < 1){
@@ -64,7 +65,7 @@ final class HomingArrow extends Arrow{
 					or
 				$this->shooter->getId() === $entity->getId()
 					or
-				$this->distance($entity) > 3
+				$this->getLocation()->distance($entity->getLocation()) > 3
 					or
 				($bb = $entity->getBoundingBox()) === null
 			) continue;
@@ -73,7 +74,7 @@ final class HomingArrow extends Arrow{
 				$entity,
 				new RayTraceResult(
 					$bb,
-					$this->getDirection(),
+					1,
 					$entity
 				)
 			);

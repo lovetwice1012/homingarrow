@@ -41,14 +41,14 @@ class Sendtask extends Task{
 				$this->setupData($player);
 				$this->sendData($player,"§eユーザー名: ".$player->getName(),1);
 				$this->sendData($player,"§e所持金: ".EconomyAPI::getInstance()->getMonetaryUnit().EconomyAPI::getInstance()->myMoney($name),2);
-				$this->sendData($player,"§b座標: ".$player->getfloorX().",".$player->getfloorY().",".$player->getfloorZ(),3);
-				$this->sendData($player,"§bワールド: ".$player->getLevel()->getFolderName(),4);
+				$this->sendData($player,"§b座標: ".$player->getLocation()->getfloorX().",".$player->getLocation()->getfloorY().",".$player->getLocation()->getfloorZ(),3);
+				$this->sendData($player,"§bワールド: ".$player->getworld()->getFolderName(),4);
 				$this->sendData($player,"§c現在時刻: ".date("G時i分s秒"),5);
-				$this->sendData($player,"§6持ってるid: ".$player->getInventory()->getItemInHand()->getId().":".$player->getInventory()->getItemInHand()->getDamage(),6);
+				$this->sendData($player,"§6持ってるid: ".$player->getInventory()->getItemInHand()->getId().":".$player->getInventory()->getItemInHand()->getMeta(),6);
 				$this->sendData($player,"§6オンライン人数: ".count(Server::getInstance()->getOnlinePlayers())."/".Server::getInstance()->getMaxPlayers(),7);
 				$this->sendData($player,"§c残シールド値: ".nexuscore::$shieldconfig->get($player->getName()),8);
 				$this->sendData($player,"§c次の掃除まで: ".$wipecount,9);
-				$this->sendData($player,"§6PING: ".$player->getPing()."ms",10);
+				$this->sendData($player,"§6PING: ".$player->getNetworkSession()->getPing()."ms",10);
 				continue;
 			}
 			$this->RemoveData($player);
@@ -62,7 +62,7 @@ class Sendtask extends Task{
 		$pk->displayName = "§aNexus server β";
 		$pk->criteriaName = "dummy";
 		$pk->sortOrder = 0;
-		$player->sendDataPacket($pk);
+		$player->getNetworkSession()->sendDataPacket($pk);
 	}
 
 	private function sendData(Player $player,String $data,Int $id){
@@ -75,12 +75,12 @@ class Sendtask extends Task{
 		$pk = new SetScorePacket();
 		$pk->type = $pk::TYPE_CHANGE;
 		$pk->entries[] = $entry;
-		$player->sendDataPacket($pk);
+		$player->getNetworkSession()->sendDataPacket($pk);
 	}
 
 	private function RemoveData(Player $player){
 		$pk = new RemoveObjectivePacket();
 		$pk->objectiveName = "sidebar";
-		$player->sendDataPacket($pk);
+		$player->getNetworkSession()->sendDataPacket($pk);
 	}
 }

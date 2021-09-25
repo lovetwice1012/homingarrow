@@ -173,11 +173,11 @@ class nexuscore extends PluginBase implements Listener
         nexuscore::$nextwipe = $this->wipeconfig->get("wipe");
         nexuscore::$defaultwipe = $this->wipeconfig->get("wipe");
         self::$shieldconfig = new Config($this->getDataFolder() . "shield.json", Config::JSON);
-        EntityFactory::getInstance()->register(NewArrow::class, function(World $world, CompoundTag $nbt):NewArrow{ return new NewArrow($world ,$nbt);}, ['NewArrow', 'minecraft:newarrow']);
-        EntityFactory::getInstance()->register(AntiGravityArrow::class, function(World $world, CompoundTag $nbt):AntiGravityArrow{ return new AntiGravityArrow($world ,$nbt);}, ['AntiGravityArrow', 'minecraft:antigravityarrow']);
-        EntityFactory::getInstance()->register(DoubleGravityArrow::class, function(World $world, CompoundTag $nbt):DoubleGravityArrow{ return new DoubleGravityArrow($world ,$nbt);}, ['DoubleGravityArrow', 'minecraft:doublegravityarrow']);
-        EntityFactory::getInstance()->register(HomingArrow::class, function(World $world, CompoundTag $nbt):HomingArrow{ return new HomingArrow($world ,$nbt);}, ['HomingArrow', 'minecraft:homingarrow']);
-        EntityFactory::getInstance()->register(HiPowerHomingArrow::class, function(World $world, CompoundTag $nbt):HiPowerHomingArrow{ return new HiPowerHomingArrow($world ,$nbt);}, ['HiPowerHomingArrow', 'minecraft:hipowerhomingarrow']); 
+        EntityFactory::getInstance()->register(NewArrow::class, function(World $world, CompoundTag $nbt):NewArrow{ return new NewArrow(EntityDataHelper::parseLocation($nbt, $world) ,$nbt);}, ['NewArrow', 'minecraft:newarrow']);
+        EntityFactory::getInstance()->register(AntiGravityArrow::class, function(World $world, CompoundTag $nbt):AntiGravityArrow{ return new AntiGravityArrow(EntityDataHelper::parseLocation($nbt, $world) ,$nbt);}, ['AntiGravityArrow', 'minecraft:antigravityarrow']);
+        EntityFactory::getInstance()->register(DoubleGravityArrow::class, function(World $world, CompoundTag $nbt):DoubleGravityArrow{ return new DoubleGravityArrow(EntityDataHelper::parseLocation($nbt, $world),$nbt);}, ['DoubleGravityArrow', 'minecraft:doublegravityarrow']);
+        EntityFactory::getInstance()->register(HomingArrow::class, function(World $world, CompoundTag $nbt):HomingArrow{ return new HomingArrow(EntityDataHelper::parseLocation($nbt, $world) ,$nbt);}, ['HomingArrow', 'minecraft:homingarrow']);
+        EntityFactory::getInstance()->register(HiPowerHomingArrow::class, function(World $world, CompoundTag $nbt):HiPowerHomingArrow{ return new HiPowerHomingArrow(EntityDataHelper::parseLocation($nbt, $world) ,$nbt);}, ['HiPowerHomingArrow', 'minecraft:hipowerhomingarrow']); 
         $this->getScheduler()->scheduleRepeatingTask(new entitykilltask($this), 20);
         $this->getScheduler()->scheduleRepeatingTask(new EffectTask($this), 10);
 	    $this->getScheduler()->scheduleRepeatingTask(new maxentitystask($this), 20);
@@ -209,19 +209,19 @@ class nexuscore extends PluginBase implements Listener
             $diff = $entity->getItemUseDuration();
             $p = $diff / 20;
             $baseForce = min((($p ** 2) + $p * 2) ** 3, 1);
-            $arrow = new NewArrow($entity->getWorld() ,$nbt ,$entity);
+            $arrow = new NewArrow($entity->getLocation() ,$nbt ,$entity);
             $event->setProjectile($arrow);
         } else if ($event->getBow()->getCustomName() === 'ANTIGRAVITY-BOW') {
-            $arrow = new AntiGravityArrow($entity->getWorld() ,$nbt ,$entity);
+            $arrow = new AntiGravityArrow($entity->getLocation() ,$nbt ,$entity);
             $event->setProjectile($arrow);
         } else if ($event->getBow()->getCustomName() === 'DOUBLEGRAVITY-BOW') {
-            $arrow = new DoubleGravityArrow($entity->getWorld() ,$nbt ,$entity);
+            $arrow = new DoubleGravityArrow($entity->getLocation() ,$nbt ,$entity);
             $event->setProjectile($arrow);
         } else if ($event->getBow()->getCustomName() === 'HOMING-BOW') {
-            $arrow = new HomingArrow($entity->getWorld() ,$nbt ,$entity);
+            $arrow = new HomingArrow($entity->getLocation() ,$nbt ,$entity);
             $event->setProjectile($arrow);
         } else if ($event->getBow()->getCustomName() === 'HI-POWER-HOMING-BOW') {
-            $arrow = new HiPowerHomingArrow($entity->getWorld() ,$nbt ,$entity);
+            $arrow = new HiPowerHomingArrow($entity->getLocation() ,$nbt ,$entity);
             $event->setProjectile($arrow);
         }
     
@@ -454,7 +454,7 @@ if($projectile->namedtag->offsetExists("TeleportBow")){
                     $teleportplayer->sendMessage($name."さんがあなたの転送リクエストを許可しようとしましたが、転送禁止ワールドにいるためできませんでした。リクエストは破棄されました。");
                     return;
                     }
-                    $teleportplayer->teleport(new Position($player->getX(), $player->getY(), $player->getZ(), $world));
+                    $teleportplayer->teleport(new Position($player->getLocation()->getX(), $player->getLocation()->getY(), $player->getLocation()->getZ(), $world));
                     $this->tppconfig->remove($name);
                     $this->tppconfig->save();
                     $player->sendMessage($teleportplayername."さんの転送リクエストを許可しました。");
@@ -524,7 +524,7 @@ if($projectile->namedtag->offsetExists("TeleportBow")){
         }else if(($form instanceof CustomWindowForm ) && $form->getName() === "mywarp add"){
             $mywarpconfig = new Config($this->getDataFolder() . "mywarp/".$player->getName().".yml", Config::YAML);
             $warpname = $form->getElement("warpname")->getFinalValue();
-            $mywarpconfig->set($warpname, $player->getX().",".$player->getY().",".$player->getZ().",".$player->getWorld()->getFolderName());
+            $mywarpconfig->set($warpname, $player->getLocation()->getX().",".$player->getLocation()->getY().",".$player->getLocation()->getZ().",".$player->getWorld()->getFolderName());
             $mywarpconfig->save();
             $player->sendMessage("記録しました！");
         }else if(($form instanceof SimpleWindowForm) && $form->getName() === "mywarp delete"){
@@ -689,7 +689,7 @@ public function onDamage(EntityDamageByEntityEvent $event)
   public function onPacketSends(DataPacketSendEvent $event):void{
     $packet = $event->getPackets();
     if(!$packet instanceof DisconnectPacket) return;
-    $player_name  = $event->getPlayer()->getName();
+    $player_name  = $event->get()->getName();
     if($this->preloginconfig->exists($player_name)){
     $message =  $player_name.'さんがログインをキャンセルしました。';
     $this->preloginconfig->remove($player_name);
@@ -697,8 +697,9 @@ public function onDamage(EntityDamageByEntityEvent $event)
     }
     if(!isset($message)) return; //$messageが定義されているか
     Server::getInstance()->broadcastMessage("§a".$message);
-  }
-  */
+
+    }
+*/
     public function onPreLogin(PlayerPreLoginEvent $event){
     $player = $event->getPlayerInfo();
     $name   = $player->getUsername();

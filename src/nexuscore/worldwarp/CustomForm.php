@@ -6,7 +6,7 @@ namespace nexuscore\worldwarp;
 
 use nexuscore\nexuscore;
 use pocketmine\form\Form;
-use pocketmine\Player;
+use pocketmine\player\Player;
 
 
 class CustomForm implements Form {

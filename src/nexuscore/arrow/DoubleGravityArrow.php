@@ -4,7 +4,8 @@ namespace nexuscore\arrow;
 use pocketmine\entity\projectile\Arrow;
 use pocketmine\entity\{
 	Entity,
-	Living
+	Living,
+    Location
 };
 use pocketmine\world\World;
 use pocketmine\nbt\tag\CompoundTag;
@@ -17,12 +18,12 @@ final class DoubleGravityArrow extends Arrow{
 	protected $punchKnockback = 10.0;
 	private $shooter;
 
-	public function __construct(World $level, ?CompoundTag $nbt = null, ?Entity $entity = null, bool $critical = false){
+	public function __construct(Location $level, ?CompoundTag $nbt = null, ?Entity $entity = null, bool $critical = false){
 		parent::__construct(
 			$level,
-			$nbt,
 			$entity,
-			$critical
+			$critical,
+			$nbt
 		);
 		if($entity === null) return;
 		$this->setMotion($entity->getDirectionVector()->normalize()->multiply(3)); //速度 この値を基本速度に掛け算してます
@@ -38,7 +39,7 @@ final class DoubleGravityArrow extends Arrow{
 					or
 				$this->shooter->getId() === $entity->getId() //当たり判定を大きくしすぎると打った人に当たるのでそれの防止
 					or
-				$this->distance($entity) > 10 //当たり判定
+				$this->getLocation()->distance($entity->getLocation()) > 10 //当たり判定
 					or
 				($bb = $entity->getBoundingBox()) === null //エンティティが当たり判定を持っているか
 			) continue;
@@ -47,7 +48,7 @@ final class DoubleGravityArrow extends Arrow{
 				$entity,
 				new RayTraceResult(
 					$bb,
-					$this->getDirection(), //ここ間違ってるかも... ごめん...
+					1, //ここ間違ってるかも... ごめん...
 					$entity
 				)
 			);
