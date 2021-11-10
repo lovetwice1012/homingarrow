@@ -1,1 +1,2 @@
-# nexuscore
+# homingarrow
+指定した名前の弓を使うと矢がホーミングします

@@ -1,0 +1,4 @@
+name: ホーミングさせる時に使う弓の名前
+gravity: 0
+damage: 0.25
+punchKnockback: 0.25

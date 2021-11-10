@@ -12,12 +12,12 @@ use pocketmine\event\entity\ProjectileHitEntityEvent;
 use pocketmine\math\RayTraceResult;
 
 final class HomingArrow extends Arrow{
-        protected $gravity = 0;
-	protected $damage = 3.0;
-	protected $punchKnockback = 2.0;
+    public $gravity = 0;
+	public $damage = 3.0;
+	public $punchKnockback = 2.0;
 	private $shooter;
 
-	public function __construct(Level $level, CompoundTag $nbt, ?Entity $entity = null, bool $critical = false){
+	public function __construct(Level $level, CompoundTag $nbt, ?Entity $entity = null, bool $critical = false, int $gravity, float $damage, float $punchKnockback){
 		parent::__construct(
 			$level,
 			$nbt,
@@ -25,8 +25,10 @@ final class HomingArrow extends Arrow{
 			$critical
 		);
 		if($entity === null) return;
-		//$this->setMotion($entity->getDirectionVector()->normalize()->multiply(0.5));
 		$this->shooter = $entity;
+		$this->gravity = $gravity;
+		$this->damage = $damage;
+		$this->punchKnockback = $punchKnockback;
 	}
 
 	public function entityBaseTick(int $tick = 1):bool{
